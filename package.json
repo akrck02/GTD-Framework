@@ -1,0 +1,23 @@
+{
+  "name": "gtd_framework",
+  "version": "1.0.0",
+  "description": "Javascript framework for easy webapp coding.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akrck02/GTD_Framework.git"
+  },
+  "keywords": [],
+  "author": "akrck02",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akrck02/GTD_Framework/issues"
+  },
+  "homepage": "https://github.com/akrck02/GTD_Framework#readme"
+}
