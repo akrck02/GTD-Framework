@@ -1,4 +1,9 @@
 
+enum ENVIROMENT {
+    DEVELOPMENT = 'development',
+    PRODUCTION = 'production',
+}
+
 //global runtime configurations
 export const CONFIG  = {
     APP_NAME: 'GTD Webapp',
@@ -6,7 +11,7 @@ export const CONFIG  = {
     HOST: '127.0.0.1',
     PORT: 80,
     URL: '',
-    ENVIROMENT : 'development',
+    ENVIROMENT : ENVIROMENT.DEVELOPMENT,
     DEBUG : true,
     LOG_LEVEL : 'debug',
     LOG_FILE : 'app.log',
@@ -24,7 +29,6 @@ export const PATHS = {
     JSON : ''     
 }
 
-
 //api calls
 export const API = {};  
 
@@ -33,7 +37,6 @@ export const VIEWS = {
     BASE_URL : '',
     HOME : '',
 };
-
 
 //start settings
 export function setUpConfigurations() : void {

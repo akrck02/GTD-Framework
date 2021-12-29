@@ -1,11 +1,13 @@
+
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2020",
-        "jsx": "preserve",
+        "target": "es2015",
+        "module": "es2015",
         "strictFunctionTypes": true,
-        "sourceMap": true
+        "moduleResolution": "node",
+        "outDir": "temp/javascript"          
     },
+    "include": ["src/**/*"],
     "exclude": [
         "node_modules",
         "**/node_modules/*"

@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle": "webpack .",
+    "bundle-w": "webpack -w",
+    "compile": "tsc ",
+    "compile-w": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/akrck02/GTD_Framework/issues"
   },
-  "homepage": "https://github.com/akrck02/GTD_Framework#readme"
+  "homepage": "https://github.com/akrck02/GTD_Framework#readme",
+  "dependencies": {
+    "typescript": "^4.5.4",
+    "webpack": "^5.65.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.1"
+  }
 }

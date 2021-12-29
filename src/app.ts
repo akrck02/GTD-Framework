@@ -1,28 +1,37 @@
-import { setUpConfigurations } from './config/config';
-import { load } from './views/router';
+import { CONFIG, PATHS, setUpConfigurations, VIEWS } from './config/config.js';
+import Router from './views/router.js';
 
-const loadFromUrl = () => {
-    // get the url paramaters or routes and load the page
-    const params = [] // getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
-    //if(token) check token 
+/**
+ * Main application class
+ */
+class App {
+    constructor() {
+        console.log("App loaded");
+    }
 
-    if(params[0] == undefined){
-        location.href = SETTINGS.URL + "#/";
-        load([""]);
+    public loadFromUrl(): void {
+        const params = []; //getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
+    
+        if(params[0] == ""){
+            location.href = VIEWS.HOME;
+            return;
+        }
+        
+        Router.load(params);
     }
-    else {
-        console.log(SETTINGS);
-        console.log(PATHS);
-         load(params);
+
+    public startCofigurations() {
+        setUpConfigurations();
     }
+    
 }
 
-window.addEventListener('hashchange',() =>{
-    
-    loadFromUrl();
-});
-
-window.onload = () => {  
-    setUpConfigurations();
-    loadFromUrl();
+/**
+ * App entry points
+ */
+window.addEventListener('hashchange',() => new App().loadFromUrl());
+window.onload = () => {
+    const app = new App();
+    app.startCofigurations();
+    app.loadFromUrl();
 }
