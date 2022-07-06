@@ -1,5 +1,5 @@
-/.vscode/
-/node_modules/
-/temp/javascript/
-*.log
-app_min.js
+node_modules
+out
+frontend/out
+frontend/temp/
+backend/out
