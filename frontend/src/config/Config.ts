@@ -1,3 +1,4 @@
+import { getLanguage, Languages } from "../lang/Languages.js";
 
 /**
  * Environment states
@@ -11,6 +12,11 @@ export enum ENVIRONMENT {
  * Configuration for the application
  */
 export class Config {
+
+    public static VARIABLES = {
+        ANIMATIONS : "ANIMATIONS",
+        LANGUAGE : "LANG"
+    }
 
     //global runtime configurations
     public static BASE = {
@@ -52,8 +58,12 @@ export class Config {
      */
      public static async setDefaultVariables() {
 
-        if(Config.getConfigVariable("ANIMATIONS") == undefined) {
-            this.addConfigVariable("ANIMATIONS",true);
+        if(Config.getConfigVariable(this.VARIABLES.ANIMATIONS) == undefined) {
+            this.setAnimations(true);
+        }
+
+        if(Config.getConfigVariable(this.VARIABLES.LANGUAGE) == undefined) {
+            this.setLanguage(getLanguage(navigator.language));
         }
     }
 
@@ -76,7 +86,7 @@ export class Config {
      * @param key the name of the variable
      * @param value the value of the variable
      */
-    public static addConfigVariable(key: string, value: any) {
+    public static setConfigVariable(key: string, value: any) {
         let localStorageConfiguration = Config.getConfig();
         const config = localStorageConfiguration;
         config[key] = value;
@@ -91,6 +101,44 @@ export class Config {
     public static getConfigVariable(key: string) : string{
         let localStorageConfiguration = this.getConfig();
         return localStorageConfiguration[key];
+    }
+
+    /**
+     * Set animation for application on|off
+     * @param on The boolean to set animations
+     */
+    public static setAnimations(on : boolean){
+        this.setConfigVariable(this.VARIABLES.ANIMATIONS,on);
+    }
+
+    /**
+     * Get if animations are enabled
+     * @returns if animations are enabled
+     */
+    public static areAnimationsEnabled() : boolean{
+        return this.getConfigVariable(this.VARIABLES.ANIMATIONS) === "true";
+    }
+
+    /**
+     * Set the application language
+     */
+    public static setLanguage(lang : Languages) {
+        this.setConfigVariable(this.VARIABLES.LANGUAGE,lang);
+    }
+
+    /**
+     * Set the application language
+     */
+     public static setLanguageByString(lang : string) {
+        this.setConfigVariable(this.VARIABLES.LANGUAGE,getLanguage(lang));
+    }
+
+    /**
+     * Get the current app language
+     * @returns The app language
+     */
+    public static getLanguage() : Languages {
+        return getLanguage(this.getConfigVariable(this.VARIABLES.LANGUAGE));
     }
 
 }

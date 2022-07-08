@@ -1,23 +1,23 @@
 import App from "../../App.js";
 import { Config } from "../../config/Config.js";
-import { UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtd/web/uicomponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 
 export default class HomeView extends ViewUI {
 
     private static ID = "home";
+    private static LOGO_ID = "logo";
+    private static DESCRIPTION_ID = "description";
+    private static START_MENU_ID = "start-menu";
+    private static INFO_BOX_CLASS = "info-box";
+
+    private static CONTRIBUTE_URL = "https://github.com/akrck02/GTD-Framework";
 
     public constructor(){
         super({
             type: "view",
             id: HomeView.ID,
             classes: ["box-column","box-center"],
-            styles: {
-                width: "100%",
-                height: "100%",
-                padding: "1rem 2rem",
-                fontSize: "1.6rem"
-            }
         });
     }
 
@@ -25,13 +25,11 @@ export default class HomeView extends ViewUI {
 
         const logo = new UIComponent({
             type : "img",
+            id: HomeView.LOGO_ID,
             attributes : {
                 src: Config.PATHS.ICONS + "logo.svg",
                 alt: "GTD Framework logo"
             },
-            styles: {
-                maxWidth: "40rem"
-            }
         })
 
         const title = new UIComponent({
@@ -41,15 +39,8 @@ export default class HomeView extends ViewUI {
 
         const text = new UIComponent({
             type : "p",
+            id: HomeView.DESCRIPTION_ID,
             text : "💻&nbsp; " + App.getBundle().home.WELCOME_DESCRIPTION + " &nbsp;🚀",
-            styles : {
-                margin : "1.5rem 0",
-                padding : "1rem 1.5rem",
-                background: "#f5f5f5",
-                borderRadius : ".35rem",
-                fontSize : "1.2rem",
-                color: "#404040"
-            }
         })
 
         const startMenu = this.createStartMenu();
@@ -63,23 +54,34 @@ export default class HomeView extends ViewUI {
     }
 
 
-
+    /**
+     * Create the start menu component 
+     * @returns The menu created.
+     */
     private createStartMenu() : UIComponent {
 
         const menu = new  UIComponent({
             type: "div",
+            id: HomeView.START_MENU_ID,
             classes: ["box-row","box-center","box-warp"],
-            styles : {
-                width: "100%",
-                maxWidth: "77rem",
-                border : "1 rem solid pink",
-                margin: "1rem 0"
-            }
         })
         
-        const helpBox = this.createBox("hand.svg",App.getBundle().home.HELLO_WORLD, App.getBundle().home.HELLO_WORLD_DESCRIPTION);
-        const configBox = this.createBox("settings.svg",App.getBundle().home.CONFIGURATIONS,App.getBundle().home.CONFIGURATIONS_DESCRIPTION);
-        const contributeBox = this.createBox("github.svg",App.getBundle().home.CONTRIBUTE,App.getBundle().home.CONTRIBUTE_DECRIPTION);
+        const helpBox = this.createInfoBox("hand.svg",
+            App.getBundle().home.HELLO_WORLD, 
+            App.getBundle().home.HELLO_WORLD_DESCRIPTION
+        );
+
+        const configBox = this.createInfoBox("settings.svg",
+            App.getBundle().home.CONFIGURATIONS,
+            App.getBundle().home.CONFIGURATIONS_DESCRIPTION
+        );
+
+        const contributeBox = this.createInfoBox("github.svg",
+            App.getBundle().home.CONTRIBUTE,
+            App.getBundle().home.CONTRIBUTE_DECRIPTION,
+            HomeView.CONTRIBUTE_URL,
+            true
+        );
 
         helpBox.appendTo(menu);
         configBox.appendTo(menu);
@@ -89,54 +91,54 @@ export default class HomeView extends ViewUI {
     }
 
 
-    public createBox(image : string, title : string, message : string) : UIComponent {
+    public createInfoBox(image : string, title : string, message : string, url : string  = undefined, newPage : boolean = false) : UIComponent {
 
-        const box = new UIComponent({
-            classes: ["box-column", "box-center","text-center"],
-            styles: {
-                width: "20rem",
-                height: "15rem",
-               // border: ".2rem solid #f1f1f1",
-                borderRadius : "1rem",
-                padding: "1rem",
-                margin : ".5rem"
-            }
+        const infoBox = new UIComponent({
+            classes: [HomeView.INFO_BOX_CLASS, "box-column", "box-center","text-center"],
         });
 
-        const boxIcon = new UIComponent({
+        const infoBoxIcon = new UIComponent({
             type : "img",
             attributes : {
                 src: Config.PATHS.ICONS + image,
                 alt: "Hello world icon"
             },
-            styles: {
-                width : "4rem",
-                margin: "1rem 0"
-            }
         }) 
 
-        boxIcon.appendTo(box);
+        infoBoxIcon.appendTo(infoBox);
 
-        const boxTitle = new UIComponent({
+        const infoBoxTitle = new UIComponent({
             type : "h2",
             text : title
         })
 
-        boxTitle.appendTo(box);
+        infoBoxTitle.appendTo(infoBox);
 
-        const boxDesc = new UIComponent({
+        const infoBoxDescription = new UIComponent({
             type : "p",
             text : message,
-            styles : {
-                fontSize: "1rem",
-                margin : ".2rem",
-                color: "#606060"
-            }
+            classes: ["description"],
         });
+        infoBoxDescription.appendTo(infoBox)
 
-        boxDesc.appendTo(box)
+        // if url is defined set action listener
+        if(url){
 
-        return box;
+            // Set "clickable" style and behaviour
+            setClasses(infoBox.element,["clickable"]);
+
+            // Setting event
+            setEvents(infoBox.element,{
+                click : (e : Event) => {
+                    e.preventDefault()
+                    e.stopPropagation();
+
+                    window.open(url,newPage? "blank" : "");
+                }
+            })
+        }
+
+        return infoBox;
     }
 
 

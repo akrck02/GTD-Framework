@@ -1,6 +1,7 @@
 import { Config } from "../config/Config.js";
 import { InitializeError } from "../errors/InitializeError.js";
 import { UIComponent } from "../lib/gtd/web/uicomponent.js";
+import ErrorView from "./error/ErrorView.ui.js";
 import HomeView from "./home/HomeView.ui.js";
 
 export default class Router {
@@ -26,7 +27,6 @@ export default class Router {
             },
         });
 
-
         this.container.appendTo(this.parent);
     }}
 
@@ -44,8 +44,15 @@ export default class Router {
                 case "home":
                     new HomeView().show(params.splice(1), this.container);    
                     break;
+                case "lang":
+                    Config.setLanguageByString(params.splice(1)[0]);
+                    location.href = Config.VIEWS.HOME;
+                    break;
+                case "error":
+                    new ErrorView().show(params.slice(1), this.container);
+                    break;
                 default:
-                    location.href = Config.VIEWS.ERROR;
+                    new ErrorView().show(["404"], this.container);
             }
 
         } catch (error){

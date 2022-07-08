@@ -1,5 +1,5 @@
 node_modules
-out
+app/styles/out
 frontend/out
-frontend/temp/
+frontend/temp
 backend/out
