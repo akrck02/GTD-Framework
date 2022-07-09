@@ -1,3 +1,5 @@
+import { Config } from "../config/Config.js";
+
 export default class Utils  {
 
     public static copyToClipboard(text: string) {
@@ -11,5 +13,22 @@ export default class Utils  {
         **/
     }   
 
+    /**
+     * Redirect to url with '/' separated params
+     * @param url The URL to be redirected to
+     * @param params The parameter Array
+     */
+    public static redirect(url: string, params: string[], force :boolean = false) {
+
+        if(force) {
+            location.href = Config.VIEWS.BLANK;
+        }
+        
+        url += params.join("/");
+        location.href = url;
+    }
+
+
+        
 
 }

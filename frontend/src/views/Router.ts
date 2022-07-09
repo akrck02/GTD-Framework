@@ -45,8 +45,10 @@ export default class Router {
                     new HomeView().show(params.splice(1), this.container);    
                     break;
                 case "lang":
-                    Config.setLanguageByString(params.splice(1)[0]);
+                    Config.setLanguage(params.splice(1)[0]);
                     location.href = Config.VIEWS.HOME;
+                    break;
+                case "blank":
                     break;
                 case "error":
                     new ErrorView().show(params.slice(1), this.container);
