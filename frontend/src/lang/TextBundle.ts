@@ -1,14 +1,14 @@
 import { HomeBundleEn } from "./english/HomeBundleEn.js";
-import { Languages } from "./Languages.js";
+import { Language } from "./Language.js";
 import { HomeBundleEs } from "./spanish/HomeBundleEs.js";
 
 export class TextBundle {
 
-    public static get (lang : Languages) {
+    public static get (lang : string) {
       switch (lang) {
-        case Languages.ENGLISH:
+        case Language.ENGLISH:
             return this.getBundleEn();
-        case Languages.SPANISH:
+        case Language.SPANISH:
             return this.getBundleEs();
         default:
             return this.getBundleEn();

@@ -1,4 +1,4 @@
-import { getLanguage, Languages } from "../lang/Languages.js";
+import { getLanguage, Language } from "../lang/Language.js";
 
 /**
  * Environment states
@@ -45,6 +45,7 @@ export class Config {
         BASE_URL: "../app/#/",
         HOME: "../app/#/home/",
         ERROR: "../app/#/error/",
+        BLANK: "../app/#/blank/",
     };
 
     public static API = {
@@ -122,22 +123,15 @@ export class Config {
     /**
      * Set the application language
      */
-    public static setLanguage(lang : Languages) {
+    public static setLanguage(lang : string) {
         this.setConfigVariable(this.VARIABLES.LANGUAGE,lang);
-    }
-
-    /**
-     * Set the application language
-     */
-     public static setLanguageByString(lang : string) {
-        this.setConfigVariable(this.VARIABLES.LANGUAGE,getLanguage(lang));
     }
 
     /**
      * Get the current app language
      * @returns The app language
      */
-    public static getLanguage() : Languages {
+    public static getLanguage() : string {
         return getLanguage(this.getConfigVariable(this.VARIABLES.LANGUAGE));
     }
 

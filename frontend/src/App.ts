@@ -31,6 +31,7 @@ export default class App {
         this.notification = new NotificationUI();
         document.body.appendChild(this.notification.element);
         this.setNoficationSystem();
+        console.log("App loaded!");
     }
 
     /**
@@ -47,7 +48,6 @@ export default class App {
     load(){
         const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
         this.router.load(params);
-        console.log("App loaded!");
     }
 
     /**
