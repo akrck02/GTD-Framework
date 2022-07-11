@@ -6,6 +6,8 @@ import LanguageService from "../../services/LanguageService.js";
 
 export default class HomeCore extends ViewCore {
 
+    public static CONTRIBUTE_URL = "https://github.com/akrck02/GTD-Framework";
+
     /**
      * Get available languages to add to the select
      * @returns The available languages
