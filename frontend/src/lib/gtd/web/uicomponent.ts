@@ -130,6 +130,19 @@ export class UIComponent {
         return this;
     }
 
+    /**
+     * Get the value of the component.
+     * @returns The value of the component
+     */
+    public getValue(): string {
+     
+        if(this.element instanceof HTMLInputElement) {
+            return this.element.value;
+        }    
+     
+        return this.element.innerHTML;
+    }
+
 }
 
 /**
