@@ -34,7 +34,7 @@ export class Response {
      */
     public json(): Response {
         this.response
-            .then((res) => res.json().then((json) => this.successFn(json)))
+            .then((res) => res.json().then((json) => this.successFn(json, res.status)))
             .catch((err) => this.errorFn(err));
         return this;
     }
@@ -53,7 +53,7 @@ export class Response {
      */
     public async jsonPromise(): Promise<any> {
         await this.response
-            .then((res) => res.json().then((json) => this.successFn(json)))
+            .then((res) => res.json().then((json) => this.successFn(json, res.status)))
             .catch((err) => this.errorFn(err));
     }
 
@@ -70,7 +70,7 @@ export class Response {
      */
     public text(): Response {
         this.response
-            .then((res) => res.text().then((text) => this.successFn(text)))
+            .then((res) => res.text().then((text) => this.successFn(text, res.status)))
             .catch((err) => this.errorFn(err));
         return this;
     }
@@ -87,7 +87,7 @@ export class Response {
      */
     public blob() {
         this.response
-            .then((res) => res.blob().then((blob) => this.successFn(blob)))
+            .then((res) => res.blob().then((blob) => this.successFn(blob, res.status)))
             .catch((err) => this.errorFn(err));
     }
 
