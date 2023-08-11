@@ -1,5 +1,5 @@
 import { getMaterialIcon } from "../../lib/gtd/material/materialicons.js";
-import { setEvents, UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 
 export interface StringMap {
