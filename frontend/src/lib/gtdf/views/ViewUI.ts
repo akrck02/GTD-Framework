@@ -1,4 +1,4 @@
-import { UIComponent } from "../../gtd/web/uicomponent.js";
+import { UIComponent } from "../components/uicomponent.js";
 
 export abstract class ViewUI extends UIComponent {
 

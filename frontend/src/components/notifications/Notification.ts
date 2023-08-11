@@ -1,5 +1,5 @@
 import { getMaterialIcon } from "../../lib/gtd/material/materialicons.js";
-import { setClasses, setStyles, UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { setClasses, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 export interface NotificationProperties {
     title ?: string,

@@ -3,7 +3,7 @@ import Select from "../../components/select/Select.js";
 import { Config } from "../../config/Config.js";
 import { getLanguageName } from "../../lang/Language.js";
 import StringTools from "../../lib/gtd/data/stringtools.js";
-import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import HomeCore from "./HomeView.core.js";
 

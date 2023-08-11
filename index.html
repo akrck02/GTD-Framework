@@ -8,7 +8,12 @@
 </head>
 <body>
     <script>
-        location.href += "app/";
+        // if location has / 
+        if (location.href[location.href.length - 1] == "/") {
+            location.href += "app/"; 
+        } else {
+            location.href += "/app/"; 
+        }
     </script>
 </body>
 </html>

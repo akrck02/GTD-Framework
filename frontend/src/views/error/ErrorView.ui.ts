@@ -1,6 +1,6 @@
 import { Config } from "../../config/Config.js";
 import { getErrorByCode } from "../../config/Errors.js";
-import { UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 
 export default class ErrorView extends ViewUI {

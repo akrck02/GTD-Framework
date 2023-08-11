@@ -9,7 +9,7 @@ import * as materialicons from './material/materialicons.js';
 import * as timetools from './sync/timetools.js';
 import * as regexp from './validation/regexp.js';
 import * as responsivetools from './web/responsivetools.js';
-import * as uicomponent from './web/uicomponent.js';
+import * as uicomponent from '../gtdf/components/uicomponent.js';
 
 
 const MODULE_DEPENDENCIES = { 
