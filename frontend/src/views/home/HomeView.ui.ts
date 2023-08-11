@@ -1,10 +1,13 @@
 import App from "../../App.js";
+import Clock from "../../components/clock/Clock.js";
 import Select from "../../components/select/Select.js";
 import { Config } from "../../config/Config.js";
 import { getLanguageName } from "../../lang/Language.js";
 import StringTools from "../../lib/gtd/data/stringtools.js";
 import { isSmallDevice } from "../../lib/gtd/web/responsivetools.js";
-import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtd/web/uicomponent.js";
+import { ObservableUIComponent } from "../../lib/gtdf/components/ObservableUIComponent.js";
+import { Observable } from "../../lib/gtdf/components/Observer.js";
+import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import HomeCore from "./HomeView.core.js";
 import HomeViewMobile from "./HomeView.mobile.ui.js";
@@ -70,6 +73,7 @@ export default class HomeView extends ViewUI {
         startMenu.appendTo(this);
 
         this.appendTo(container);
+
     }
 
 

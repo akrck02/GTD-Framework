@@ -6,6 +6,7 @@ import { HTTPS_METHOD } from "../core/http.js";
  * @author Akrck02
  */
 export class Response {
+
     private response: Promise<globalThis.Response>;
     private successFn: Function;
     private errorFn: Function;
@@ -15,7 +16,6 @@ export class Response {
         this.successFn = (data) => console.log(data);
         this.errorFn = (err) => console.log("Error in response : ", err);
     }
-
 
     getResponse(): Promise<globalThis.Response> {
         return this.response;

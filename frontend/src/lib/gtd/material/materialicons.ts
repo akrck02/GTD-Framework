@@ -1,4 +1,4 @@
-import { UIComponent } from "../web/uicomponent.js";
+import { UIComponent } from "../../gtdf/components/uicomponent.js";
 
 export interface MaterialIconsProperties {
     fill?: string | "#202020";
