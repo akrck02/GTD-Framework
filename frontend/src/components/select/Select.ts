@@ -1,4 +1,4 @@
-import { getMaterialIcon } from "../../lib/gtd/material/materialicons.js";
+import { getMaterialIcon } from "../../lib/gtd/sync/materialicons.js";
 import { setEvents, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 

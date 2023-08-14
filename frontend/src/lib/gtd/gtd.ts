@@ -5,7 +5,7 @@ import * as easyfetch from './data/easyfetch.js';
 import * as numeric from './data/numeric.js';
 import * as urltools from './data/urltools.js';
 import * as materialcolors from './material/materialcolors.js';
-import * as materialicons from './material/materialicons.js';
+import * as materialicons from './sync/materialicons.js';
 import * as timetools from './sync/timetools.js';
 import * as regexp from './validation/regexp.js';
 import * as responsivetools from './web/responsivetools.js';
