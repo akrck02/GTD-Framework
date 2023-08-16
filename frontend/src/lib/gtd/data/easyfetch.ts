@@ -52,7 +52,7 @@ export class Response {
      *
      */
     public async jsonPromise(): Promise<any> {
-        await this.response
+        return await this.response
             .then((res) => res.json().then((json) => this.successFn(json, res.status)))
             .catch((err) => this.errorFn(err));
     }
