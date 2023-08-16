@@ -2,7 +2,8 @@ import App from "../../App.js";
 import Select from "../../components/select/Select.js";
 import { Config } from "../../config/Config.js";
 import { getLanguageName } from "../../lang/Language.js";
-import StringTools from "../../lib/gtd/data/stringtools.js";
+import { Text } from "../../lang/Text.js";
+import StringTools from "../../lib/gtdf/data/stringtools.js";
 import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import HomeCore from "./HomeView.core.js";
@@ -24,7 +25,7 @@ export default class HomeViewMobile extends ViewUI {
     }
 
 
-    public show(params : string[], container : UIComponent): void {
+    public show(params : string[], container : UIComponent) {
         const lang = StringTools.toNormalCase(getLanguageName(Config.getLanguage()));
         const select = new Select(HomeCore.getLanguages(),HomeCore.setLanguage,lang);
         setStyles(select.element,{
@@ -39,20 +40,20 @@ export default class HomeViewMobile extends ViewUI {
             type : "img",
             id: HomeViewMobile.LOGO_ID,
             attributes : {
-                src: Config.PATHS.ICONS + "logo.svg",
+                src: Config.Path.ICONS + "logo.svg",
                 alt: "GTD Framework logo"
             },
         })
 
         const title = new UIComponent({
             type : "h1",
-            text :"💭 " + App.getBundle().home.WELCOME_MESSAGE + " 😉",
+            text :"💭 " + Text.home.WELCOME_MESSAGE + " 😉",
         })
 
         const text = new UIComponent({
             type : "p",
             id: HomeViewMobile.DESCRIPTION_ID,
-            text : "💻&nbsp; " + App.getBundle().home.WELCOME_DESCRIPTION + " &nbsp;🚀",
+            text : "💻&nbsp; " + Text.home.WELCOME_DESCRIPTION + " &nbsp;🚀",
         })
 
         const startMenu = this.createStartMenu();
@@ -82,18 +83,18 @@ export default class HomeViewMobile extends ViewUI {
         })
         
         const helpBox = this.createInfoBox("hand.svg",
-            App.getBundle().home.HELLO_WORLD, 
-            App.getBundle().home.HELLO_WORLD_DESCRIPTION
+            Text.home.HELLO_WORLD, 
+            Text.home.HELLO_WORLD_DESCRIPTION
         );
 
         const configBox = this.createInfoBox("settings.svg",
-            App.getBundle().home.CONFIGURATIONS,
-            App.getBundle().home.CONFIGURATIONS_DESCRIPTION
+            Text.home.CONFIGURATIONS,
+            Text.home.CONFIGURATIONS_DESCRIPTION
         );
 
         const contributeBox = this.createInfoBox("github.svg",
-            App.getBundle().home.CONTRIBUTE,
-            App.getBundle().home.CONTRIBUTE_DECRIPTION,
+            Text.home.CONTRIBUTE,
+            Text.home.CONTRIBUTE_DECRIPTION,
             HomeCore.CONTRIBUTE_URL,
             true
         );
@@ -115,7 +116,7 @@ export default class HomeViewMobile extends ViewUI {
         const infoBoxIcon = new UIComponent({
             type : "img",
             attributes : {
-                src: Config.PATHS.ICONS + image,
+                src: Config.Path.icons + image,
                 alt: "Hello world icon"
             },
         }) 

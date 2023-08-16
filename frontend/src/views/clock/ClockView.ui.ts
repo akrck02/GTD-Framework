@@ -17,7 +17,7 @@ export default class ClockView extends ViewUI {
         });
     }
    
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent) {
        
         let clock = new Clock();
         clock.appendTo(this);

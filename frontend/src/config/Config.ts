@@ -1,4 +1,5 @@
 import { getLanguage, Language } from "../lang/Language.js";
+import { IObserver } from "../lib/gtdf/core/observable/Observer.js";
 
 /**
  * Environment states
@@ -8,62 +9,169 @@ export enum ENVIRONMENT {
     PRODUCTION = "production",
 }
 
+
+interface IVariables {
+    animations : boolean;
+    environment : ENVIRONMENT;
+    language : string;
+}
+
+interface IBase {
+    app_name : string;
+    app_version : string;
+    host : string;
+    port : number;
+    environment : ENVIRONMENT;
+    debug : boolean;
+    log_level : string;
+    website : string;
+    author : string;
+}
+
+
+interface IPath {
+    url : string;
+    app : string;
+    resources : string;
+    language : string;
+    images : string;
+    icons : string;
+}
+
+interface IViews {
+    url : string;
+    home : string;
+    error : string;
+    blank : string;
+}
+
 /**
  * Configuration for the application
  */
-export class Config {
+export class Configuration implements IObserver {
 
-    public static VARIABLES = {
-        ANIMATIONS : "ANIMATIONS",
-        LANGUAGE : "LANG"
+    private readonly CONFIG_FILE : string = "../gtdf.config.json";
+    private static _instance: Configuration;
+
+    Variables : IVariables = {
+        animations : true,
+        environment : ENVIRONMENT.DEVELOPMENT,
+        language : Language.ENGLISH
     }
 
-    //global runtime configurations
-    public static BASE = {
-        APP_NAME: "Gtdf-App",
-        APP_VERSION: "v.x.x",
-        HOST: "127.0.0.1",
-        PORT: 80,
-        URL: location.href,
-        ENVIRONMENT: ENVIRONMENT.DEVELOPMENT,
-        DEBUG: true,
-        LOG_LEVEL: "debug",
-        LOG_FILE: "app.log",
-        WEBSITE : "https://akrck02.github.io/#/software/GTD-Framework"
-    };
+    Base : IBase = {
+        app_name : "",
+        app_version : "",
+        host : "",
+        port : 80,
+        environment : ENVIRONMENT.DEVELOPMENT,
+        debug : false,
+        log_level : "",
+        website : "",
+        author : ""
+    }
 
-    public static PATHS = {
-        APP : "../app/",
-        ROOT : "../frontend/",
-        LOGS : "../frontend/logs/",
-        RESOURCES : "../resources/",
-        IMAGES : "../resources/images/",
-        ICONS : "../resources/icons/",
-    };
+    Path : IPath = {
+        url : "",
+        app : "",
+        resources : "",
+        language : "",
+        images : "",
+        icons : ""
+    }
 
-    public static VIEWS = {
-        BASE_URL: "../app/#/",
-        HOME: "../app/#/home/",
-        ERROR: "../app/#/error/",
-        BLANK: "../app/#/blank/",
-    };
+    Views : IViews = {
+        url : "",
+        home : "",
+        error : "",
+        blank : ""
+    }
 
-    public static API = {
-        URL : "http://127.0.0.1:3333/api/v1/",
-        PING : "http://127.0.0.1:3333/api/v1/ping/",
-    };
+    async update() {
+
+        const config = await fetch(this.CONFIG_FILE).then((response) => response.json());
+       
+        
+        this.Variables  = config.variables;
+        this.Base       = config.base;
+        this.Path      = config.path;
+        this.Views      = config.views;
+
+        for (const key in this.Path) {
+
+            if(key == "url") {
+
+                //if the last character is not a slash, add it
+                if(this.Path[key][this.Path[key].length - 1] != "/") {
+                    this.Path[key] = this.Path[key] + "/";
+                }
+
+                continue;
+            }
+           
+            const element = this.Path[key];
+                
+            //if the last character is not a slash, add it
+            if(element[element.length - 1] != "/") {
+                this.Path[key] = element + "/";
+            }
+
+            this.Path[key] = this.Path.url + this.Path[key];
+           
+        }
+
+        for (const key in this.Views) {
+            const element = this.Views[key];
+            
+            if(key == "url") {
+                
+                //if the first character is not a slash, add it
+                if(this.Views[key][0] != "/") {
+                    this.Views[key] = "/" + this.Views[key];
+                }
+
+                //if the last character is not a slash, add it
+                if(this.Views[key][this.Views[key].length - 1] != "/") {
+                    this.Views[key] = this.Views[key] + "/";
+                }
+             
+                continue;
+            }
+
+            //if the last character is not a slash, add it
+            if(element[element.length - 1] != "/") {
+                this.Views[key] = element + "/";
+            }
+
+            this.Views[key] = this.Views.url + this.Views[key];
+        }
+        
+    }
+
+
+    /**
+     * Get a configuration instance
+     */
+    public static get instance(): Configuration {
+
+        if (!this._instance) {
+            this._instance = new Configuration();
+        }
+
+        return this._instance;
+    }
 
 
     /**
      * Set default configurations for the application
      */
-     public static async setDefaultVariables() {
+     public async setDefaultVariables() {
 
-        if(Config.getConfigVariable(this.VARIABLES.ANIMATIONS) == undefined) {
+        if(this.getConfigVariable(this.Variables.animations) == undefined) {
             this.setAnimations(true);
         }
 
-        if(Config.getConfigVariable(this.VARIABLES.LANGUAGE) == undefined) {
+        if(this.getConfigVariable(this.Variables.language) == undefined) {
             this.setLanguage(getLanguage(navigator.language));
         }
     }
@@ -72,8 +180,8 @@ export class Config {
      * Get application configurations
      * @returns the application configurations
      */
-     public static getConfig() {
-        let localStorageConfiguration = JSON.parse(localStorage.getItem(Config.BASE.APP_NAME + "-config"));
+     public getConfig() {
+        let localStorageConfiguration = JSON.parse(localStorage.getItem(this.Base.app_name + "-config"));
 
         if(!localStorageConfiguration) {
             localStorageConfiguration = {}
@@ -87,11 +195,11 @@ export class Config {
      * @param key the name of the variable
      * @param value the value of the variable
      */
-    public static setConfigVariable(key: string, value: any) {
-        let localStorageConfiguration = Config.getConfig();
+    public setConfigVariable(key: string, value: any) {
+        let localStorageConfiguration = this.getConfig();
         const config = localStorageConfiguration;
         config[key] = value;
-        localStorage.setItem(Config.BASE.APP_NAME + "-config", JSON.stringify(config));
+        localStorage.setItem(this.Base.app_name + "-config", JSON.stringify(config));
     }
 
     /**
@@ -99,7 +207,7 @@ export class Config {
      * @param key the name of the variable
      * @returns the value of the variable
      */
-    public static getConfigVariable(key: string) : string{
+    public getConfigVariable(key: string) : string{
         let localStorageConfiguration = this.getConfig();
         return localStorageConfiguration[key];
     }
@@ -108,31 +216,34 @@ export class Config {
      * Set animation for application on|off
      * @param on The boolean to set animations
      */
-    public static setAnimations(on : boolean){
-        this.setConfigVariable(this.VARIABLES.ANIMATIONS,on);
+    public setAnimations(on : boolean){
+        this.setConfigVariable(this.Variables.animations,on);
     }
 
     /**
      * Get if animations are enabled
      * @returns if animations are enabled
      */
-    public static areAnimationsEnabled() : boolean{
-        return this.getConfigVariable(this.VARIABLES.ANIMATIONS) === "true";
+    public areAnimationsEnabled() : boolean{
+        return this.getConfigVariable(this.Variables.language) === "true";
     }
 
     /**
      * Set the application language
      */
-    public static setLanguage(lang : string) {
-        this.setConfigVariable(this.VARIABLES.LANGUAGE,lang);
+    public setLanguage(lang : string) {
+        this.setConfigVariable(this.Variables.language,lang);
     }
 
     /**
      * Get the current app language
      * @returns The app language
      */
-    public static getLanguage() : string {
-        return getLanguage(this.getConfigVariable(this.VARIABLES.LANGUAGE));
+    public getLanguage() : string {
+        return getLanguage(this.getConfigVariable(this.Variables.language));
     }
 
 }
+
+
+export const Config = Configuration.instance;

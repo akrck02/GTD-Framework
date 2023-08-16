@@ -24,6 +24,6 @@ export function sleep (ms : number) : Promise<void> {
  *     resolveAfter(() => console.log('resolved after ' + time + 'ms'), time);
  *     // prints 'resolved after 1000ms' after 1 second
  */
-export function resolveAfter (func, time : number) : void {
+export function resolveAfter (func, time : number) {
     sleep(time).then(func);
 };

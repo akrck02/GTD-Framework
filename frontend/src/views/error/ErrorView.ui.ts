@@ -5,10 +5,10 @@ import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 
 export default class ErrorView extends ViewUI {
 
-    private static DEFAULT_ERROR_CODE = 404;
-    private static ID = "error";
-    private static IMAGE_ID = "error-img";
-    private static TITLE_ID = "error-title";
+    private static readonly DEFAULT_ERROR_CODE = 404;
+    private static readonly ID = "error";
+    private static readonly IMAGE_ID = "error-img";
+    private static readonly TITLE_ID = "error-title";
 
     public constructor(){
         super({
@@ -18,7 +18,7 @@ export default class ErrorView extends ViewUI {
         });
     }
 
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent) {
             
         const code = parseInt(params[0]);
         let error = getErrorByCode(code);
@@ -33,7 +33,7 @@ export default class ErrorView extends ViewUI {
             type: "img",
             id: ErrorView.IMAGE_ID,
             attributes: {
-                src: Config.PATHS.ICONS + "error.svg",
+                src: Config.Path.icons + "error.svg",
             },
         });
         this.appendChild(image);

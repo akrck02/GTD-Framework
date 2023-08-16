@@ -1,5 +1,5 @@
-import { ObservableUIComponent } from "../../lib/gtdf/components/ObservableUIComponent.js";
-import { Observable } from "../../lib/gtdf/components/Observer.js";
+import { ObservableUIComponent } from "../../lib/gtdf/core/observable/ObservableUIComponent.js";
+import { Observable } from "../../lib/gtdf/core/observable/Observer.js";
 import { UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 export default class Canvas extends ObservableUIComponent {
@@ -44,7 +44,7 @@ export default class Canvas extends ObservableUIComponent {
         });
     }
 
-    draw(): void {
+    draw() {
     
         this.xlabel = new ObservableUIComponent({
             type: "div",
@@ -85,7 +85,7 @@ export default class Canvas extends ObservableUIComponent {
             }
         });
 
-        this.mouse.update = () => {
+        this.mouse.update = async () => {
             this.mouse.element.style.top = `calc(${this.observable.content.mouse.y.toString()}px - ${this.mouse.element.style.height}/2)`;
             this.mouse.element.style.left = `calc(${this.observable.content.mouse.x.toString()}px - ${this.mouse.element.style.width}/2)`;
 
@@ -99,11 +99,11 @@ export default class Canvas extends ObservableUIComponent {
 
         };
 
-        this.xlabel.update = () => {
+        this.xlabel.update = async () => {
             this.xlabel.element.innerHTML = `x: ${this.observable.content.mouse.x.toString()}`;
         };
 
-        this.ylabel.update = () => {
+        this.ylabel.update = async () => {
             this.ylabel.element.innerHTML = `y: ${this.observable.content.mouse.y.toString()}`;
         };
         
@@ -114,7 +114,7 @@ export default class Canvas extends ObservableUIComponent {
 
     }
 
-    update(): void {
+    async update() {
 
         if(this.xlabel === undefined){
             this.draw();

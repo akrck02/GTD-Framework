@@ -31,7 +31,7 @@ notification #nt-bar.hidden{
 }
 
 notification #nt-bar #nt-title{
-    font-size : 1.25rem"
+    font-size : 1.25rem;
 }
 
 notification #nt-content {

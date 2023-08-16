@@ -1,4 +1,4 @@
-import { HTTPS_METHOD } from "../core/http.js";
+import { HTTPS_METHOD } from "./http.js";
 
 /**
  * A class that represents a response from a fetch request.

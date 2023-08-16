@@ -1,5 +1,5 @@
-import { ObservableUIComponent } from "../../lib/gtdf/components/ObservableUIComponent.js";
-import { Observable } from "../../lib/gtdf/components/Observer.js";
+import { ObservableUIComponent } from "../../lib/gtdf/core/observable/ObservableUIComponent.js";
+import { Observable } from "../../lib/gtdf/core/observable/Observer.js";
 
 export default class Clock extends ObservableUIComponent {
 
@@ -21,7 +21,7 @@ export default class Clock extends ObservableUIComponent {
 
     }
 
-    update(): void {
+    async update() {
         this.element.innerHTML = this.observable.content.time;
     }
 

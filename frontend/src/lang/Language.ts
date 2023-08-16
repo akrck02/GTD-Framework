@@ -11,6 +11,10 @@ export const Language = {
  */
 export function getLanguage(locale : string) : string {
 
+    if(!locale){
+        return Language.ENGLISH;
+    }
+
     const keys = Object.keys(Language);    
     for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
@@ -32,6 +36,10 @@ export function getLanguage(locale : string) : string {
  * @returns The language name
  */
 export function getLanguageName(locale: string) : string {
+    
+    if(!locale){
+        return Language.ENGLISH;
+    }
 
     const keys = Object.keys(Language);    
     for (let i = 0; i < keys.length; i++) {

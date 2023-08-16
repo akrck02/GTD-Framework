@@ -1,4 +1,4 @@
-import { getMaterialIcon } from "../../lib/gtd/sync/materialicons.js";
+import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
 import { setClasses, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 export interface NotificationProperties {
@@ -66,7 +66,7 @@ export default class NotificationUI extends UIComponent {
         }
 
         if(properties.icon) {
-            const icon = getMaterialIcon(properties.icon,{size: "1.25rem" , fill: "#404040"});
+            const icon = MaterialIcons.get(properties.icon,{size: "1.25rem" , fill: "#404040"});
             this.content.appendChild(icon);
         }
     }

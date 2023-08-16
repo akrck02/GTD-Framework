@@ -54,7 +54,7 @@ export default class Router {
                     break;
                 case "lang":
                     Config.setLanguage(params.splice(1)[0]);
-                    location.href = Config.VIEWS.HOME;
+                    location.href = Config.Views.home;
                     break;
                 case "blank":
                     break;

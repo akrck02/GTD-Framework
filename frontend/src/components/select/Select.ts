@@ -1,4 +1,4 @@
-import { getMaterialIcon } from "../../lib/gtd/sync/materialicons.js";
+import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
 import { setEvents, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 
 
@@ -55,7 +55,7 @@ export default class Select extends UIComponent {
         })
         this.display.appendTo(displayBox);
 
-        const icon = getMaterialIcon("expand",{
+        const icon = MaterialIcons.get("expand",{
             size: "1rem",
             fill: "#404040"
         })

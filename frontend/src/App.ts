@@ -1,11 +1,10 @@
 import Router from "./views/Router.js";
-import { getParametersByIndex } from "./lib/gtd/data/urltools.js";
-import { TextBundle } from "./lang/TextBundle.js";
+import { getParametersByIndex } from "./lib/gtdf/data/urltools.js";
 import { Config } from "./config/Config.js";
 import { Events, IEvents } from "./core/events/Events.js";
 import Keyboard from "./core/events/Keyboard.js";
 import NotificationUI, { NotificationProperties } from "./components/notifications/Notification.js";
-
+import Initializer from "./core/Initializer.js";
 
 /**
  * Class that represents the application frontend proccess
@@ -19,19 +18,18 @@ export default class App {
     private notification : NotificationUI;
 
     /**
-     * Create an instance of the application
+     * Create an instance of the apjplication
      */
     constructor(){        
+       
         this.router = new Router();
         this.events = Events;
-
         Keyboard.setEventListeners(this.events);
 
         // Set the notification element
         this.notification = new NotificationUI();
         document.body.appendChild(this.notification.element);
         this.setNoficationSystem();
-        console.log("App loaded!");
     }
 
     /**
@@ -45,7 +43,11 @@ export default class App {
      * The first parameter must be a view name, otherwise the 
      * app will redirect the user to an 404 error page.
      */
-    load(){
+    async load(){
+
+        await Initializer.subscribeInitializables();
+        await Initializer.notify();
+
         const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
         this.router.load(params);
     }
@@ -65,23 +67,14 @@ export default class App {
             // If the desktop notification are active 
             if(properties.desktop){
 
-                new Notification(Config.BASE.APP_NAME ,{
-                    icon: Config.PATHS.ICONS + "logo.svg",
+                new Notification(Config.Base.app_name ,{
+                    icon: Config.Path.icons + "logo.svg",
                     body: properties.message,
                 })
             }
 
         };
 
-    }
-
-    /**
-     * Get current language text bundle
-     * @returns The text bundle int the current app language.
-     */
-     public static getBundle() : any {
-        let lang = Config.getLanguage();
-        return TextBundle.get(lang);
     }
 
 }

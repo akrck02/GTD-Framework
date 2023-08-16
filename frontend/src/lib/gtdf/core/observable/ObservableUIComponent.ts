@@ -1,6 +1,6 @@
 
 import { IObservable, IObserver } from "./Observer.js";
-import { UIComponent, UIProperties } from "./uicomponent.js";
+import { UIComponent, UIProperties } from "../../components/uicomponent.js";
 
 export interface ObserverUIProperties extends UIProperties {
     observable: IObservable;
@@ -16,7 +16,7 @@ export class ObservableUIComponent extends UIComponent implements IObserver {
         this.observable.subscribe(this);
     }
     
-    update(): void {
+    async update() {
         console.warn("ObservableUIComponent.update() not implemented.");
     }
 }

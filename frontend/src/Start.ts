@@ -1,16 +1,15 @@
 import App from "./App.js";
-import { Config } from "./config/Config.js";
+import { Config, Configuration } from "./config/Config.js";
 
 
 export let app : App; 
-
 
 /**
  * When the dynamic URL changes loads 
  * the correspoding view from the URL
  */
-window.addEventListener('hashchange',() => {
-    app.load()
+window.addEventListener('hashchange',async () => {
+    await app.load()
 });
 
 /**
@@ -24,5 +23,5 @@ window.onload = async () => {
         app = new App();   
     }
 
-    app.load();
+    await app.load();
 }

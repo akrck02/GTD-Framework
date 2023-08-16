@@ -48,7 +48,7 @@ export function getParametersByIndex (url: string, index: number) : string[]{
  *     const filename = "cat.jpg";
  *     downloadFile(url, filename);
  */
-export function downloadFile(uri: string, name: string) :void {
+export function downloadFile(uri: string, name: string){
     let link = document.createElement("a");
     link.download = name;
     link.href = uri;

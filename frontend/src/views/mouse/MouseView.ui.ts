@@ -18,7 +18,7 @@ export default class MouseView extends ViewUI {
         });
     }
    
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent) {
        
         let canvas = new Canvas();
         canvas.appendTo(this);

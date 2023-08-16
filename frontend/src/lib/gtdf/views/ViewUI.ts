@@ -6,5 +6,5 @@ export abstract class ViewUI extends UIComponent {
         super(details);
     }
 
-    public abstract show(params : string[], container : UIComponent): void ;
+    public abstract show(params : string[], container : UIComponent) ;
 }

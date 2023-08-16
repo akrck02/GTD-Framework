@@ -32,7 +32,7 @@ export default class HomeCore extends ViewCore {
     public static setLanguage(selected :string){        
         
         Config.setLanguage(selected);
-        Utils.redirect(Config.VIEWS.HOME,[],true);
+        Utils.redirect(Config.Views.home,[],true);
     } 
 
 }
