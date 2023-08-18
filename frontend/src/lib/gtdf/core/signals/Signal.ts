@@ -23,8 +23,6 @@ export class Signal implements ISignal {
     content: any;
     
     public subscribe(observer: IObserver) {
-        console.log(`Subscribing observer to signal ${this.id}`);
-        
       this.subscribers.push(observer);
     }
 

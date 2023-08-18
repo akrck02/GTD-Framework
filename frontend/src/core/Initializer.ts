@@ -55,9 +55,7 @@ export default class Initializer {
             return;
         }
     
-        Initializer.performed = true;   
-        console.log("Initializer.notify");
-        
+        Initializer.performed = true;          
         await Initializer.instance.initSignal.emit();
     }
 

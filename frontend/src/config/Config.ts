@@ -1,5 +1,6 @@
 import { getLanguage, Language } from "../lang/Language.js";
 import { IObserver } from "../lib/gtdf/core/observable/Observer.js";
+import { addSlash, addStartSlash } from "../lib/gtdf/data/urltools.js";
 
 /**
  * Environment states
@@ -8,7 +9,6 @@ export enum ENVIRONMENT {
     DEVELOPMENT = "development",
     PRODUCTION = "production",
 }
-
 
 interface IVariables {
     animations : boolean;
@@ -27,7 +27,6 @@ interface IBase {
     website : string;
     author : string;
 }
-
 
 interface IPath {
     url : string;
@@ -52,6 +51,9 @@ export class Configuration implements IObserver {
 
     private readonly CONFIG_FILE : string = "../gtdf.config.json";
     private static _instance: Configuration;
+
+    private static readonly ANIMATION_KEY : string = "animations";
+    private static readonly LANGUAGE_KEY : string = "language";
 
     Variables : IVariables = {
         animations : true,
@@ -88,10 +90,9 @@ export class Configuration implements IObserver {
     }
 
     async update() {
-
+    
         const config = await fetch(this.CONFIG_FILE).then((response) => response.json());
-       
-        
+
         this.Variables  = config.variables;
         this.Base       = config.base;
         this.Path      = config.path;
@@ -100,52 +101,27 @@ export class Configuration implements IObserver {
         for (const key in this.Path) {
 
             if(key == "url") {
-
-                //if the last character is not a slash, add it
-                if(this.Path[key][this.Path[key].length - 1] != "/") {
-                    this.Path[key] = this.Path[key] + "/";
-                }
-
+                this.Path[key] = addSlash(this.Path[key]);
                 continue;
             }
            
-            const element = this.Path[key];
-                
-            //if the last character is not a slash, add it
-            if(element[element.length - 1] != "/") {
-                this.Path[key] = element + "/";
-            }
-
-            this.Path[key] = this.Path.url + this.Path[key];
+            this.Path[key] = this.Path.url + addSlash(this.Path[key]);
            
         }
 
         for (const key in this.Views) {
-            const element = this.Views[key];
-            
+           
+            const element = this.Views[key]; 
             if(key == "url") {
-                
-                //if the first character is not a slash, add it
-                if(this.Views[key][0] != "/") {
-                    this.Views[key] = "/" + this.Views[key];
-                }
-
-                //if the last character is not a slash, add it
-                if(this.Views[key][this.Views[key].length - 1] != "/") {
-                    this.Views[key] = this.Views[key] + "/";
-                }
-             
+                this.Views[key] = addStartSlash(this.Views[key]);
+                this.Views[key] = addSlash(this.Views[key]);
                 continue;
             }
 
-            //if the last character is not a slash, add it
-            if(element[element.length - 1] != "/") {
-                this.Views[key] = element + "/";
-            }
-
-            this.Views[key] = this.Views.url + this.Views[key];
+            this.Views[key] = this.Views.url + addSlash(this.Views[key]);
         }
-        
+                
+        await this.setDefaultVariables();
     }
 
 
@@ -167,7 +143,7 @@ export class Configuration implements IObserver {
      */
      public async setDefaultVariables() {
 
-        if(this.getConfigVariable(this.Variables.animations) == undefined) {
+        if(this.getConfigVariable(Configuration.ANIMATION_KEY) == undefined) {
             this.setAnimations(true);
         }
 
@@ -217,7 +193,7 @@ export class Configuration implements IObserver {
      * @param on The boolean to set animations
      */
     public setAnimations(on : boolean){
-        this.setConfigVariable(this.Variables.animations,on);
+        this.setConfigVariable(Configuration.ANIMATION_KEY,on);
     }
 
     /**
@@ -225,14 +201,14 @@ export class Configuration implements IObserver {
      * @returns if animations are enabled
      */
     public areAnimationsEnabled() : boolean{
-        return this.getConfigVariable(this.Variables.language) === "true";
+        return this.getConfigVariable(Configuration.ANIMATION_KEY) === "true";
     }
 
     /**
      * Set the application language
      */
     public setLanguage(lang : string) {
-        this.setConfigVariable(this.Variables.language,lang);
+        this.setConfigVariable(Configuration.LANGUAGE_KEY,lang);
     }
 
     /**
@@ -240,10 +216,9 @@ export class Configuration implements IObserver {
      * @returns The app language
      */
     public getLanguage() : string {
-        return getLanguage(this.getConfigVariable(this.Variables.language));
+        return getLanguage(this.getConfigVariable(Configuration.LANGUAGE_KEY));
     }
 
 }
-
 
 export const Config = Configuration.instance;

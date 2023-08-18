@@ -1,6 +1,6 @@
 import { Config } from "../../../config/Config.js";
 import { IObserver } from "../../gtdf/core/observable/Observer.js";
-import { UIComponent } from "../components/uicomponent.js";
+import { UIComponent } from "../components/UIComponent.js";
 
 /**
  * Material Icons properties

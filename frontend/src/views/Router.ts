@@ -1,11 +1,8 @@
 import { Config } from "../config/Config.js";
 import { InitializeError } from "../errors/InitializeError.js";
-import { UIComponent } from "../lib/gtdf/components/uicomponent.js";
-import ClockView from "./clock/ClockView.ui.js";
-import ErrorView from "./error/ErrorView.ui.js";
-import HomeView from "./home/HomeView.ui.js";
-import MouseView from "./mouse/MouseView.ui.js";
-
+import { UIComponent } from "../lib/gtdf/components/UIComponent.js";
+import ErrorView from "./error/ErrorView.js";
+import HomeView from "./home/HomeView.js";
 export default class Router {
 
     private parent : HTMLElement;
@@ -45,12 +42,6 @@ export default class Router {
                 case "":
                 case "home":
                     new HomeView().show(params.splice(1), this.container);    
-                    break;
-                case "canvas":
-                    new MouseView().show(params.splice(1), this.container);
-                    break;
-                case "clock":
-                    new ClockView().show(params.splice(1), this.container);
                     break;
                 case "lang":
                     Config.setLanguage(params.splice(1)[0]);

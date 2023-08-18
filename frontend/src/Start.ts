@@ -19,7 +19,6 @@ window.addEventListener('hashchange',async () => {
 window.onload = async () => {    
    
     if(app === undefined){
-        await Config.setDefaultVariables();
         app = new App();   
     }
 

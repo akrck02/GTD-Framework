@@ -1,4 +1,4 @@
-import { UIComponent } from "../components/uicomponent.js";
+import { UIComponent } from "../components/UIComponent.js";
 
 export abstract class ViewUI extends UIComponent {
 

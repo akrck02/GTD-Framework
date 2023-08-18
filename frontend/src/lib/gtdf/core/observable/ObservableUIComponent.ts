@@ -1,6 +1,6 @@
 
 import { IObservable, IObserver } from "./Observer.js";
-import { UIComponent, UIProperties } from "../../components/uicomponent.js";
+import { UIComponent, UIProperties } from "../../components/UIComponent.js";
 
 export interface ObserverUIProperties extends UIProperties {
     observable: IObservable;

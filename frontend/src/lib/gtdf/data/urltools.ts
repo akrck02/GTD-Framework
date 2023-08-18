@@ -79,3 +79,31 @@ export function getUrlGetParameters(url: string) : object {
     });
     return result;
 }
+
+/**
+ * Get url GET parameter
+ * @param url url to get parameter from
+ * @returns parameter of a url
+ */
+export function addSlash(url: string) : string {
+    
+    if(url[url.length - 1] != "/") {
+        url += "/";
+    }
+
+    return url;
+}
+
+/**
+ * Get url GET parameter
+ * @param url url to get parameter from
+ * @returns parameter of a url
+ */
+export function addStartSlash(url: string) : string {
+    
+    if(url[0] != "/") {
+        url = "/" + url;
+    }
+
+    return url;
+}

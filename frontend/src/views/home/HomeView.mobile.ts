@@ -1,19 +1,15 @@
-import App from "../../App.js";
-import Clock from "../../components/clock/Clock.js";
 import Select from "../../components/select/Select.js";
 import { Config } from "../../config/Config.js";
 import { getLanguageName } from "../../lang/Language.js";
 import { Text } from "../../lang/Text.js";
 import StringTools from "../../lib/gtdf/data/stringtools.js";
-import { isSmallDevice } from "../../lib/gtdf/components/responsivetools.js";
-import { setClasses, setEvents, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
+import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import HomeCore from "./HomeView.core.js";
-import HomeViewMobile from "./HomeView.mobile.ui.js";
 
-export default class HomeView extends ViewUI {
+export default class HomeViewMobile extends ViewUI {
 
-    private static ID = "home";
+    private static ID = "home-mobile";
     private static LOGO_ID = "logo";
     private static DESCRIPTION_ID = "description";
     private static START_MENU_ID = "start-menu";
@@ -22,21 +18,15 @@ export default class HomeView extends ViewUI {
     public constructor(){
         super({
             type: "view",
-            id: HomeView.ID,
+            id: HomeViewMobile.ID,
             classes: ["box-column","box-center"],
         });
     }
 
     public show(params : string[], container : UIComponent) {
-
-        if(isSmallDevice()){
-            new HomeViewMobile().show(params,container);
-            return;
-        }
-        
         const lang = StringTools.toNormalCase(getLanguageName(Config.getLanguage()));
         const select = new Select(HomeCore.getLanguages(),HomeCore.setLanguage,lang);
-        setStyles(select.element,{
+        select.setStyles({
             position: "absolute",
             right: "2rem",
             top: "1rem"
@@ -46,7 +36,7 @@ export default class HomeView extends ViewUI {
 
         const logo = new UIComponent({
             type : "img",
-            id: HomeView.LOGO_ID,
+            id: HomeViewMobile.LOGO_ID,
             attributes : {
                 src: Config.Path.icons + "logo.svg",
                 alt: "GTD Framework logo"
@@ -60,7 +50,7 @@ export default class HomeView extends ViewUI {
 
         const text = new UIComponent({
             type : "p",
-            id: HomeView.DESCRIPTION_ID,
+            id: HomeViewMobile.DESCRIPTION_ID,
             text : "💻&nbsp; " + Text.home.WELCOME_DESCRIPTION + " &nbsp;🚀",
         })
 
@@ -75,16 +65,15 @@ export default class HomeView extends ViewUI {
 
     }
 
-
     /**
      * Create the start menu component 
      * @returns The menu created.
      */
-    private createStartMenu() : UIComponent {
+     private createStartMenu() : UIComponent {
 
         const menu = new  UIComponent({
             type: "div",
-            id: HomeView.START_MENU_ID,
+            id: HomeViewMobile.START_MENU_ID,
             classes: ["box-row","box-center","box-warp"],
         })
         
@@ -116,7 +105,7 @@ export default class HomeView extends ViewUI {
     public createInfoBox(image : string, title : string, message : string, url : string  = undefined, newPage : boolean = false) : UIComponent {
 
         const infoBox = new UIComponent({
-            classes: [HomeView.INFO_BOX_CLASS, "box-column", "box-center","text-center"],
+            classes: [HomeViewMobile.INFO_BOX_CLASS, "box-column", "box-center","text-center"],
         });
 
         const infoBoxIcon = new UIComponent({
@@ -126,14 +115,12 @@ export default class HomeView extends ViewUI {
                 alt: "Hello world icon"
             },
         }) 
-
         infoBoxIcon.appendTo(infoBox);
 
         const infoBoxTitle = new UIComponent({
             type : "h2",
             text : title
         })
-
         infoBoxTitle.appendTo(infoBox);
 
         const infoBoxDescription = new UIComponent({
@@ -147,10 +134,10 @@ export default class HomeView extends ViewUI {
         if(url){
 
             // Set "clickable" style and behaviour
-            setClasses(infoBox.element,["clickable"]);
+            infoBox.setClasses(["clickable"]);
 
             // Setting event
-            setEvents(infoBox.element,{
+            infoBox.setEvents({
                 click : (e : Event) => {
                     e.preventDefault()
                     e.stopPropagation();
@@ -162,6 +149,5 @@ export default class HomeView extends ViewUI {
 
         return infoBox;
     }
-
 
 }

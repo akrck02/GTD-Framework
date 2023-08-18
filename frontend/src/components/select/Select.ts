@@ -1,5 +1,5 @@
 import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
-import { setEvents, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
+import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 
 
 export interface StringMap {
@@ -33,7 +33,7 @@ export default class Select extends UIComponent {
         });
         displayBox.appendTo(this);
 
-        setEvents(displayBox.element, {
+        displayBox.setEvents({
             click : (e : Event) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -81,7 +81,7 @@ export default class Select extends UIComponent {
                 },
             })
 
-            setEvents(option.element, {
+            option.setEvents({
                 click : () =>{
                     onclick(option.element.dataset.value);
                 }

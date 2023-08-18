@@ -7,5 +7,5 @@ import { IEvents } from "../../../core/events/Events.js"
  */
 export interface Command {
     match(predicate : string) : boolean
-    execute(predicate : string, listeners: IEvents)
+    execute(predicate : string, listeners: IEvents) : Promise<void>
 }
