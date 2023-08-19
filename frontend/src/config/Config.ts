@@ -1,6 +1,6 @@
 import { getLanguage, Language } from "../lang/Language.js";
 import { IObserver } from "../lib/gtdf/core/observable/Observer.js";
-import { addSlash, addStartSlash } from "../lib/gtdf/data/urltools.js";
+import URLs from "../lib/gtdf/data/Urls.js";
 
 /**
  * Environment states
@@ -101,11 +101,11 @@ export class Configuration implements IObserver {
         for (const key in this.Path) {
 
             if(key == "url") {
-                this.Path[key] = addSlash(this.Path[key]);
+                this.Path[key] = URLs.addSlash(this.Path[key]);
                 continue;
             }
            
-            this.Path[key] = this.Path.url + addSlash(this.Path[key]);
+            this.Path[key] = this.Path.url + URLs.addSlash(this.Path[key]);
            
         }
 
@@ -113,12 +113,12 @@ export class Configuration implements IObserver {
            
             const element = this.Views[key]; 
             if(key == "url") {
-                this.Views[key] = addStartSlash(this.Views[key]);
-                this.Views[key] = addSlash(this.Views[key]);
+                this.Views[key] = URLs.addStartSlash(this.Views[key]);
+                this.Views[key] = URLs.addSlash(this.Views[key]);
                 continue;
             }
 
-            this.Views[key] = this.Views.url + addSlash(this.Views[key]);
+            this.Views[key] = this.Views.url + URLs.addSlash(this.Views[key]);
         }
                 
         await this.setDefaultVariables();
@@ -217,6 +217,15 @@ export class Configuration implements IObserver {
      */
     public getLanguage() : string {
         return getLanguage(this.getConfigVariable(Configuration.LANGUAGE_KEY));
+    }
+
+    /**
+     * Set the title of the page
+     * @param title The title of the page
+     */
+    public setTitle(title : string) {
+        document.title = title;
+        window.history.pushState({}, title, window.location.href);
     }
 
 }

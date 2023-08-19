@@ -30,7 +30,6 @@ export default class HomeCore extends ViewCore {
      * @param selected The selected language
      */
     public static setLanguage(selected :string){        
-        
         Config.setLanguage(selected);
         Utils.redirect(Config.Views.home,[],true);
     } 

@@ -2,7 +2,7 @@ import Select from "../../components/select/Select.js";
 import { Config } from "../../config/Config.js";
 import { getLanguageName } from "../../lang/Language.js";
 import { Text } from "../../lang/Text.js";
-import StringTools from "../../lib/gtdf/data/stringtools.js";
+import StringTools from "../../lib/gtdf/data/Strings.js";
 import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import HomeCore from "./HomeView.core.js";

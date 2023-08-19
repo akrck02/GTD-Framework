@@ -1,5 +1,4 @@
-export default class StringTools {
-
+export default class Strings {
 
     public static toNormalCase(str:string) : string {
         

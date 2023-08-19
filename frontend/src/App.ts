@@ -1,5 +1,5 @@
 import Router from "./views/Router.js";
-import { getParametersByIndex } from "./lib/gtdf/data/urltools.js";
+import  URLs from "./lib/gtdf/data/Urls.js";
 import { Config } from "./config/Config.js";
 import { Events, IEvents } from "./core/events/Events.js";
 import Keyboard from "./core/events/Keyboard.js";
@@ -47,7 +47,7 @@ export default class App {
         await Initializer.subscribeInitializables();
         await Initializer.notify();
 
-        const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
+        const params = URLs.getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
         this.router.load(params);
     }
 

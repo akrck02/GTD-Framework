@@ -34,11 +34,31 @@ export class TextBundle implements IObserver {
         for(let bundle of TextBundle.AVAILABLE_BUNDLES){
             this.bundle[bundle] = await fetch(`${Config.Path.language}${Config.getLanguage()}/${bundle}.json`).then(response => response.json());
         }
+
+        for(let bundle of TextBundle.AVAILABLE_BUNDLES){
+            this.bundle[bundle] = new Proxy(this.bundle[bundle], {
+                get: function(target, prop, receiver) {
+                    return target[prop] || "";        
+                },
+                set : function(target, prop, value){
+                    return false;
+                }
+            });
+        }
+
     }
 }
 
 export const Text : any = new Proxy(TextBundle.instance, {
     get: function(target, prop, receiver) {
+
+        if(!target.bundle){
+            return "";
+        }        
+
         return target.bundle[prop] || "";        
+    },
+    set : function(target, prop, value){
+        return false;
     }
 });

@@ -6,5 +6,9 @@
     "CONFIGURATIONS" : "Configurations",
     "CONFIGURATIONS_DESCRIPTION" : "Learn how to set up a new project",
     "CONTRIBUTE" : "Contribute",
-    "CONTRIBUTE_DECRIPTION" : "Help us to improve!"
+    "CONTRIBUTE_DECRIPTION" : "Help us to improve!",
+    "TITLE" : "Home",
+    "HELLO_WORLD_ICON_ALT" : "hello world icon",
+    "CONFIGURATIONS_ICON_ALT" : "configurations icon",
+    "CONTRIBUTE_ICON_ALT" : "contributions icon"
 }
