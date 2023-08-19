@@ -1,10 +1,10 @@
 export default class DOM {
 
     /**
-     * Create a new element with the given properties.
-     * @param element Element to create
-     * @param attributes Attributes to set
-     * @returns The new element
+     * Set HTML attributes to the given element.
+     * @param element Element to set attributes
+     * @param attributes Attributes to set 
+     * @returns The element with attributes in order to chain methods
      */
     public static setAttributes(
         element: HTMLElement,
@@ -21,10 +21,10 @@ export default class DOM {
     }
 
     /**
-     * Remove the HTML data attributes to the given component.
+     * Remove the HTML attributes to the given component.
      * @param element The element to remove attributes
      * @param attributes list of data attributes to be removed
-     * @returns DOM element with attributes in order to chain methods
+     * @returns DOM element in order to chain methods
      */
     public static removeAttributes(
         element: HTMLElement,
@@ -40,9 +40,9 @@ export default class DOM {
 
     /**
      * Set the classes to the given component.
-     * @param element element to set classes
+     * @param element element to set classes to
      * @param classes list of classes to be set
-     * @returns DOM element with classes in order to chain methods
+     * @returns DOM element in order to chain methods
      */
     public static setClasses(
         element: HTMLElement,
@@ -57,10 +57,10 @@ export default class DOM {
     }
 
     /**
-     * Set the classes to the given component.
-     * @param element element to set classes
-     * @param classes Array with classnames
-     * @returns DOM element with classes in order to chain methods
+     * Remove the classes to the given component.
+     * @param element element to remove classes to
+     * @param classes list of classes to be removed
+     * @returns DOM element in order to chain methods
      */
     public static removeClasses(
         element: HTMLElement,
@@ -76,9 +76,9 @@ export default class DOM {
 
     
     /**
-     * Remove the classes to the given component.
-     * @param element element to set classes
-     * @param styles Object with classes and values
+     * Set the styles to the given component.
+     * @param element element to set styles to
+     * @param styles Object with style names and values
      * @returns DOM element with classes in order to chain methods
      */
     public static setStyles(
@@ -96,8 +96,8 @@ export default class DOM {
 
     /**
      * Remove the classes to the given component.
-     * @param element element to set classes
-     * @param styles Object with classes and values
+     * @param element element to remove styles to
+     * @param styles List of styles to be removed
      * @returns DOM element with classes in order to chain methods
      */
     public static removeStyles(
@@ -114,8 +114,8 @@ export default class DOM {
 
     /**
      * Set the events to the given component.
-     * @param element element to set classes
-     * @param events Object with classes and values
+     * @param element element to set events to
+     * @param events Object with events and listener functions
      * @returns DOM element with classes in order to chain methods
      */
     public static setEvents(
@@ -133,8 +133,8 @@ export default class DOM {
 
     /**
      * Remove the events to the given component.
-     * @param element element to set classes
-     * @param events Object with classes and values
+     * @param element element to remove events to
+     * @param events List of events to be removed
      * @returns DOM element with classes in order to chain methods
      */
     public static removeEvents(

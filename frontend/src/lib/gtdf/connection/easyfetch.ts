@@ -8,98 +8,156 @@ import { HTTPS_METHOD } from "./http.js";
 export class Response {
 
     private response: Promise<globalThis.Response>;
-    private successFn: Function;
-    private errorFn: Function;
+    private errorFunction: Function;
+    private statusFunctions : Map<number,Function>;
+    private middleware : Function[];
 
     constructor(response: Promise<globalThis.Response>) {
         this.response = response;
-        this.successFn = (data) => console.log(data);
-        this.errorFn = (err) => console.log("Error in response : ", err);
-    }
-
-    getResponse(): Promise<globalThis.Response> {
-        return this.response;
+        this.middleware = [];
+        this.errorFunction = (err) => console.error("Error in response : ", err);
+        this.statusFunctions = new Map();
+        this.statusFunctions.set(200, (res) => console.log("Success", res));
     }
 
     /**
-     *  Executes tne callback function with the response json as an argument.
-     * @returns the response itself
-     * @description This method is useful for fetching json files.
+     * Executes the callback functions corresponding to the status code getting the response as a json object.
+     * in case of an error, the error function will be executed.
+     * 
      * @example
-     *      Response
-     *      .success(text => console.log(text))
-     *      .error(err => console.log(err))
-     *      .json();
-     *
+     * await EasyFetch.get({
+     *   url: "https://mydomain/json/1",
+     *   parameters: {
+     *        name: "John",
+     *   },
+     *   headers: {
+     *      "Content-type": "application/json",
+     *   }
+     * })
+     * .status(200,(response) => {
+     *    console.log(response);
+     * })
+     * .status(404,(response) => {
+     *   console.log("NOT FOUND: ",response);
+     * })
+     * .error((error) => {
+     *   console.error(error);
+     * })
+     * .json()
      */
-    public json(): Response {
-        this.response
-            .then((res) => res.json().then((json) => this.successFn(json, res.status)))
-            .catch((err) => this.errorFn(err));
-        return this;
+    public async json(){
+        await this.response
+        .then(async (res) => {
+            
+            if(this.statusFunctions.has(res.status)){
+                let json = await res.json();
+                await this.statusFunctions.get(res.status)(json);
+            }                           
+        
+        })
+        .catch((err) => this.errorFunction(err));
     }
+
+    /**
+     * Executes the callback function corresponding to the status code getting the response as a text.
+     * in case of an error, the error function will be executed.
+     * @example
+     * await EasyFetch.get({
+     *   url: "https://mydomain/text/1",
+     *   parameters: {
+     *        name: "John",
+     *   },
+     *   headers: {
+     *      "Content-type": "text/plain",
+     *   }
+     * })
+     * .status(200,(response) => {
+     *    console.log(response);
+     * })
+     * .status(404,(response) => {
+     *   console.log("NOT FOUND: ",response);
+     * })
+     * .error((error) => {
+     *   console.error(error);
+     * })
+     * .text()
+     */
+    public async text(){
+        await this.response
+        .then(async (res) => {
+            
+            if(this.statusFunctions.has(res.status)){
+                let text = await res.text();
+                await this.statusFunctions.get(res.status)(text);
+            }
+
+        })
+        .catch((err) => this.errorFunction(err))
+}
     
-
     /**
-     *  Executes tne callback function with the response json as an argument.
-     * @returns the response itself
-     * @description This method is useful for fetching json files.
+     * Executes the callback function corresponding to the status code getting the response as a blob.
+     * in case of an error, the error function will be executed.
      * @example
-     *      Response
-     *      .success(text => console.log(text))
-     *      .error(err => console.log(err))
-     *      .json();
-     *
+     * await EasyFetch.get({
+     *  url: "https://mydomain/blob/1",
+     * parameters: {
+     *     name: "John",
+     * },
+     * headers: {
+     *    "Content-type": "application/octet-stream",
+     * }
+     * })
+     * .status(200,(response) => {
+     *   console.log(response);
+     * })
+     * .status(404,(response) => {
+     *  console.log("NOT FOUND: ",response);
+     * })
+     * .error((error) => {
+     *  console.error(error);
+     * })
+     * .blob()
      */
-    public async jsonPromise(): Promise<any> {
-        return await this.response
-            .then((res) => res.json().then((json) => this.successFn(json, res.status)))
-            .catch((err) => this.errorFn(err));
+    public async blob() {
+        await this.response
+        .then(async (res) => {
+                
+                if(this.statusFunctions.has(res.status)){
+                    let blob = await res.blob();
+                    await this.statusFunctions.get(res.status)(blob);
+                }
+
+            }
+        )
+        .catch((err) => this.errorFunction(err));
     }
 
     /**
-     * Executes the callback function with the response text as an argument.
-     * @returns the response itself
-     * @description This method is useful for fetching text files.
-     * @example
-     *      Response
-     *      .success(text => console.log(text))
-     *      .error(err => console.log(err))
-     *      .text();
-     *
-     */
-    public text(): Response {
-        this.response
-            .then((res) => res.text().then((text) => this.successFn(text, res.status)))
-            .catch((err) => this.errorFn(err));
-        return this;
-    }
-
-    /**
-     * Executes the callback function with the response blob as an argument.
-     * @returns the response itself
-     * @description This method is useful for fetching binary files.
-     * @example
-     *     Response
-     *     .success(blob => console.log(blob))
-     *     .error(err => console.log(err))
-     *     .blob();
-     */
-    public blob() {
-        this.response
-            .then((res) => res.blob().then((blob) => this.successFn(blob, res.status)))
-            .catch((err) => this.errorFn(err));
-    }
-
-    /**
-     * Sets the callback function to be executed when the response is successful.
+     * Sets the callback function to be executed corresponding to the status code.
+     * @param code the status code or list of status codes
      * @param success the callback function
      * @returns the response itself
      */
-    public success(success: Function): Response {
-        this.successFn = success;
+    public status(code : number | number[], func: Function): Response {
+
+        let numbers : number[] = [];
+
+        if(typeof code === "number")
+        {
+            numbers.push(code);
+        } else {
+            numbers = code;
+        }
+
+        for(let i = 0; i < numbers.length; i++)
+        {
+            this.statusFunctions.set(numbers[i], func);
+        }
+        
         return this;
     }
+
 
     /**
      * Sets the callback function to be executed when the response is unsuccessful.
@@ -107,7 +165,7 @@ export class Response {
      * @returns the response itself
      */
     public error(error: Function): Response {
-        this.errorFn = error;
+        this.errorFunction = error;
         return this;
     }
 }
@@ -120,41 +178,172 @@ export class Response {
  * @property {string} body - Body of the request.
  *
  */
-export interface EasyFetchProperties {
-    method: HTTPS_METHOD;
-    parameters: object;
+export interface FetchProperties {
+    method?: HTTPS_METHOD;
+    parameters: object | FormData;
     url: string;
+    charset?: string;
+    contentType?: string;
+    headers?: object;
 }
 
-/**
- * @param properties fetch properties
- * @returns a Response object encapsulating the response.
- * @description This method is useful for fetching data from the server.
- * @example
- *     const response = EasyFetch(
- *       {
- *          method: HTTPS_METHOD.GET,
- *          parameters: {
- *             id: "1Y123",
- *             name: "Akrck02"
- *          },
- *          url: 'https://example.org/api/todos/1'
- *       }
- *     );
- *     response.json();
- */
-export function efetch(properties: EasyFetchProperties): Response {
-    let options = {
-        method: properties.method,
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-    };
+export class EasyFetch {
 
-    if (properties.method === HTTPS_METHOD.POST) {
-        options["body"] = JSON.stringify(properties.parameters);
+    private static middleware : Function[] = [];
+
+    public static get(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.GET,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
     }
 
-    const promise = fetch(properties.url, options);
-    const response = new Response(promise);
-    return response;
+    public static post(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.POST,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static put(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.PUT,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static delete(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.DELETE,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static patch(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.PATCH,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static head(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.HEAD,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static options(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.OPTIONS,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static connect(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.CONNECT,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static trace(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.TRACE,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    public static update(properties : FetchProperties): Response {
+        return EasyFetch.exec({
+            method: HTTPS_METHOD.UPDATE,
+            parameters: properties.parameters,
+            url: properties.url,
+            headers: properties.headers,
+            charset: properties.charset,
+            contentType: properties.contentType
+        });
+    }
+
+    /**
+     * Adds a middleware function to be executed before the request is sent.
+     * @param func the middleware function
+     */
+    public static addMiddleware(func: Function) {
+        EasyFetch.middleware.push(func);
+    }
+
+    /**
+     * Removes a middleware function.
+     * @param func the middleware function
+     * @returns true if the function was removed, false otherwise
+     */
+
+    private static exec(properties: FetchProperties): Response {
+
+        let options = {
+            method: properties.method,
+            headers: { 
+                "Content-type": `${properties.contentType || "application/json"};charset=${properties.charset || "UTF-8"}`
+            },
+        };
     
+        properties.headers && Object.assign(options.headers, properties.headers);
+        
+        if (properties.method !== HTTPS_METHOD.GET) {
+        
+        
+            if(properties.parameters instanceof FormData){
+                options["body"] = properties.parameters;
+                options.headers["Content-type"] = `multipart/form-data;charset=${properties.charset || "UTF-8"}`;
+            } else {
+                options["body"] = JSON.stringify(properties.parameters);
+            }
+        }
+    
+        const promise = fetch(properties.url, options);
+        return  new Response(promise);
+        
+    }
+
+
+
+
+
 }

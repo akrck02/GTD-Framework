@@ -35,14 +35,17 @@ export default class Select extends UIComponent {
 
         displayBox.setEvents({
             click : (e : Event) => {
+                
                 e.preventDefault();
                 e.stopPropagation();
                 
                 if(this.element.classList.contains("show")){
                     this.element.classList.remove("show");
-                } else {
-                    this.element.classList.add("show")
-                }
+                    return;
+                } 
+                
+                this.element.classList.add("show")
+                
             }
         })
 
@@ -56,7 +59,7 @@ export default class Select extends UIComponent {
         this.display.appendTo(displayBox);
 
         const icon = MaterialIcons.get("expand",{
-            size: "1rem",
+            size: "1.15em",
             fill: "#404040"
         })
 

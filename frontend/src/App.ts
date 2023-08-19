@@ -44,7 +44,6 @@ export default class App {
      * app will redirect the user to an 404 error page.
      */
     async load(){
-
         await Initializer.subscribeInitializables();
         await Initializer.notify();
 
@@ -78,5 +77,4 @@ export default class App {
     }
 
 }
-
 
