@@ -1,5 +1,6 @@
 import { Config, Configuration } from "../config/Config.js";
 import { IObserver } from "../lib/gtdf/core/observable/Observer.js";
+import { Signal } from "../lib/gtdf/core/signals/Signal.js";
 import { Language } from "./Language.js";
 
 
@@ -9,6 +10,8 @@ export class TextBundle implements IObserver {
         "home",
     ];
     private static _instance : TextBundle;
+
+    public static reloadSignal = new Signal("reload_text");
     public bundle : any;
 
     private constructor() {}
@@ -30,6 +33,7 @@ export class TextBundle implements IObserver {
      * Update the bundle with the current language
      */
     async update() {  
+
         this.bundle = {};
         for(let bundle of TextBundle.AVAILABLE_BUNDLES){
             this.bundle[bundle] = await fetch(`${Config.Path.language}${Config.getLanguage()}/${bundle}.json`).then(response => response.json());
@@ -62,3 +66,6 @@ export const Text : any = new Proxy(TextBundle.instance, {
         return false;
     }
 });
+
+
+TextBundle.reloadSignal.subscribe(TextBundle.instance);
