@@ -8,10 +8,11 @@
   },
   "scripts": {
     "compile": "npm run compile-server & npm run compile-client",
-    "compile-server": "tsc --project ./backend/",
-    "compile-server-watch": "tsc --project ./backend/ -w",
     "compile-client": "tsc --project ./frontend/",
     "compile-client-watch": "tsc --project ./frontend/ -w",
+    "pack-styles": "java -jar bin/lit-v1.0b2.jar",
+    "pack-client": "rollup frontend/temp/src/Start.js --file frontend/out/App.js --format iife",
+    "dist" : "npm run compile && npm run pack-styles && npm run pack-client",
     "serve" : "node ./serve.js"
   },
   "repository": {
@@ -33,7 +34,6 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "dotenv": "^16.0.1",
-    "live-server": "^1.1.0"
+    "dotenv": "^16.0.1"
   }
 }
