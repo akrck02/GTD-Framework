@@ -1,5 +1,5 @@
-import { getMaterialIcon } from "../../lib/gtd/material/materialicons.js";
-import { setEvents, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
+import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
+import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 
 
 export interface StringMap {
@@ -33,16 +33,19 @@ export default class Select extends UIComponent {
         });
         displayBox.appendTo(this);
 
-        setEvents(displayBox.element, {
+        displayBox.setEvents({
             click : (e : Event) => {
+                
                 e.preventDefault();
                 e.stopPropagation();
                 
                 if(this.element.classList.contains("show")){
                     this.element.classList.remove("show");
-                } else {
-                    this.element.classList.add("show")
-                }
+                    return;
+                } 
+                
+                this.element.classList.add("show")
+                
             }
         })
 
@@ -55,8 +58,8 @@ export default class Select extends UIComponent {
         })
         this.display.appendTo(displayBox);
 
-        const icon = getMaterialIcon("expand",{
-            size: "1rem",
+        const icon = MaterialIcons.get("expand",{
+            size: "1.15em",
             fill: "#404040"
         })
 
@@ -81,7 +84,7 @@ export default class Select extends UIComponent {
                 },
             })
 
-            setEvents(option.element, {
+            option.setEvents({
                 click : () =>{
                     onclick(option.element.dataset.value);
                 }

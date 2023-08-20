@@ -1,4 +1,4 @@
-import { UIComponent } from "../components/uicomponent.js";
+import { UIComponent } from "../components/UIComponent.js";
 
 export abstract class ViewUI extends UIComponent {
 
@@ -6,5 +6,5 @@ export abstract class ViewUI extends UIComponent {
         super(details);
     }
 
-    public abstract show(params : string[], container : UIComponent): void ;
+    public abstract show(params : string[], container : UIComponent) ;
 }

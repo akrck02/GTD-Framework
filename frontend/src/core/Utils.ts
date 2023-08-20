@@ -21,7 +21,7 @@ export default class Utils  {
     public static redirect(url: string, params: string[], force :boolean = false) {
 
         if(force) {
-            location.href = Config.VIEWS.BLANK;
+            location.href = Config.Views.blank;
         }
         
         url += params.join("/");

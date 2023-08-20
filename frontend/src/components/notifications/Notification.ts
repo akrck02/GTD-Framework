@@ -1,5 +1,5 @@
-import { getMaterialIcon } from "../../lib/gtd/material/materialicons.js";
-import { setClasses, setStyles, UIComponent } from "../../lib/gtdf/components/uicomponent.js";
+import MaterialIcons from "../../lib/gtdf/resources/MaterialIcons.js";
+import { UIComponent } from "../../lib/gtdf/components/UIComponent.js";
 
 export interface NotificationProperties {
     title ?: string,
@@ -53,7 +53,7 @@ export default class NotificationUI extends UIComponent {
             this.bar.element.classList.remove("hidden");
             this.bar.appendChild(title);
         } else { 
-            setClasses(this.bar.element,["hidden"])
+            this.bar.setClasses(["hidden"])
         }
 
         if(properties.message){
@@ -66,7 +66,7 @@ export default class NotificationUI extends UIComponent {
         }
 
         if(properties.icon) {
-            const icon = getMaterialIcon(properties.icon,{size: "1.25rem" , fill: "#404040"});
+            const icon = MaterialIcons.get(properties.icon,{size: "1.25rem" , fill: "#404040"});
             this.content.appendChild(icon);
         }
     }
@@ -74,10 +74,10 @@ export default class NotificationUI extends UIComponent {
     public async show(seconds : number = 1) {
 
         if(this.showing)
-        return;
+            return;
 
         setTimeout(() => {
-           setClasses(this.element,["show"])
+           this.setClasses(["show"])
         }, 1);
 
         this.showing = true;

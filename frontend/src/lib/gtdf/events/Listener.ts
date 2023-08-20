@@ -16,6 +16,4 @@ export abstract class Listener {
             desktop: true,
         })
     };
-
-    
 }
