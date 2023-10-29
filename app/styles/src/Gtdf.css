@@ -3,7 +3,9 @@
 @import url("./views/_import.css");
 
 :root {
-    --accent-color : #007ACC;
+    --accent-color : #8155FF;
+    --secondary-color : #F1EAFF;
+    --secondary-text-color : #898989;
 }
 
 .accent-hover:hover{

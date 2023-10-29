@@ -1,7 +1,7 @@
 {
  
     "base" : {
-        "app_name" : "Gtdf app",
+        "app_name" : "Countless",
         "app_version" : "v1.0.0",
         "host" : "127.0.0.1",
         "port" : "80",
@@ -23,19 +23,24 @@
 
     "views" : {
         "url" : "app/#",
-        "home" : "home",
+        "login" : "login",
+        "income" : "transactions/income",
+        "outcome" : "transactions/outcome",
         "error" : "error",
         "blank" : "blank"
     },
 
     "api" : {
-        "url" : "https://api.github.com/repos/akrck02/GTD-Framework/languages"
+        "url" : "http://192.168.50.223:3000/",
+        "login" : "users/login",
+        "transactionsListIncome" : "transactions/list/income",
+        "transactionsListOutcome" : "transactions/list/outcome"
     },
 
     "variables" : {
         "animations" : "true",
-        "language" : "en",
-        "theme" : "light"
+        "language" : "es",
+        "theme" : "dark"
     }
 
 }
